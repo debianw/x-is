@@ -1,0 +1,19 @@
+{
+  "name": "x-is",
+  "version": "0.0.1",
+  "authors": [
+    "Walter R Chacon S <debianw@gmail.com>"
+  ],
+  "description": "A full set of static methods to do type checking.",
+  "keywords": "x-is, type, checking, validate, polymer, web-components",
+  "main": "x-is.html",
+  "license": "MIT",
+  "homepage": "https://github.com/debianw/x-is/",
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.3.4",
+    "polymer-test-tools": "Polymer/polymer-test-tools#~0.3.3"
+  }
+}

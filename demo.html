@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>x-is Demo</title>
+
+  <script src="../platform/platform.js"></script>
+  <link rel="import" href="x-is.html">
+
+</head>
+<body unresolved>
+
+  <p>An example of using <code>&lt;x-is></code>:</p>
+
+  <x-is></x-is>
+
+  <div id="results"></div>
+
+  <script>
+    (function () {
+
+      document.addEventListener('polymer-ready', function () {
+        var is = document.querySelector('x-is')
+          , results = document.querySelector('#results');
+
+        results.innerHTML += is.isEmail('test@test.com') ? "<b>test@test.com</b> <i>is a valid email</i> <br />" : "";
+        results.innerHTML += is.isArray([1,2,3]) ? "<b>[1,2,3]</b> <i>is a valid array</i> <br />" : "";
+        results.innerHTML += is.isEmpty([]) ? "<b> [] </b> is an empty value <br />" : "";
+        results.innerHTML += is.isEmpty('') ? "<b> '' </b> is an empty value <br />" : "";
+
+      });
+
+    })();
+  </script>
+
+</body>
+</html>

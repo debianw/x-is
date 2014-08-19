@@ -1,0 +1,243 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+A full set of static methods to do type checking
+
+##### Example
+
+    <x-is></x-is>
+
+    <script>
+      var is = document.querySelector('x-is');
+
+      if (is.isEmail('test@test.com')) { /* is a valid email */ }
+      if (is.isArray([1,2,3])) { /* is a valid array */ }
+      if (is.isEmpty([])) { /* is an empty array */ }
+      if (is.isEmpty('')) { /* is an empty string */ }
+    </script>
+
+@element x-is
+@blurb A full set of static methods to do type checking.
+@homepage http://debianw.github.io/x-is
+-->
+<polymer-element name="x-is">
+
+  <script>
+
+    (function () {
+      var toString = Object.prototype.toString;
+
+      Polymer('x-is', {
+      
+        /**
+         * Returns `true` if the passed value is an email.
+         *
+         * @method isEmail
+         * @param {Object} value
+         * @return {Boolean} Returns true/false.
+         */
+
+        isEmail: function (value) {
+          return "string" === typeof value && /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/.test(value);
+        },
+
+        /**
+         * Returns `true` if the passed value is an array.
+         *
+         * @method isArray
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isArray: ("isArray" in Array) ? Array.isArray : function (value) {
+          return toString.call(value) === "[object Array]";
+        },
+
+        /**
+         * Returns `true` if is an empty value.
+         *
+         * @method isEmpty
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isEmpty: function (value, allowEmptyString) {
+          value = this.isString(value) && !allowEmptyString ? value.trim() : value;
+          return (value === null) || (value === undefined) || (!allowEmptyString ? value === '' : false) || (this.isArray(value) && value.length === 0);
+        },
+
+        /**
+         * Returns `true` if is date.
+         *
+         * @method isDate
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isDate: function (value) {
+          return toString.call(value) === "[object Date]";
+        },
+
+        /**
+         * Returns `true` if is a string.
+         *
+         * @method isString
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isString: function (value) {
+          return "string" == typeof value;
+        },
+
+        /**
+         * Returns `true` if is boolean.
+         *
+         * @method isBoolean
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isBoolean: function(value) {
+            return typeof value === 'boolean';
+        },
+
+        /**
+         * Returns `true` if the passed value is a JavaScript Object, `false` otherwise.
+         *
+         * @method isObject
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isObject: (toString.call(null) === '[object Object]') ?
+        function(value) {
+            // check ownerDocument here as well to exclude DOM nodes
+            return value !== null && value !== undefined && toString.call(value) === '[object Object]' && value.ownerDocument === undefined;
+        } :
+        function(value) {
+            return toString.call(value) === '[object Object]';
+        },
+
+        /**
+         * Returns `true` if the passed value is a simple Object.
+         *
+         * @method isSimpleObject
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isSimpleObject: function(value) {
+            return value instanceof Object && value.constructor === Object;
+        },
+
+        /**
+         * Returns `true` if the passed value is a JavaScript 'primitive', a string, number or Boolean.
+         *
+         * @method isPrimitive
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isPrimitive: function(value) {
+            var type = typeof value;
+
+            return type === 'string' || type === 'number' || type === 'boolean';
+        },
+
+        /**
+         * Returns `true` if the passed value is a JavaScript Function, `false` otherwise.
+         *
+         * @method isFunction
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isFunction:
+        // Safari 3.x and 4.x returns 'function' for typeof <NodeList>, hence we need to fall back to using
+        // Object.prorotype.toString (slower)
+        (typeof document !== 'undefined' && typeof document.getElementsByTagName('body') === 'function') ? function(value) {
+            return toString.call(value) === '[object Function]';
+        } : function(value) {
+            return typeof value === 'function';
+        },
+
+        /**
+         * Returns `true` if the passed value is a number. Returns `false` for non-finite numbers.
+         *
+         * @method isNumber
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isNumber: function(value) {
+            return typeof value === 'number' && isFinite(value);
+        },
+
+        /**
+         * Returns `true` if the passed value is numeric.
+         *
+         * @method isNumeric
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isNumeric: function(value) {
+            return !isNaN(parseFloat(value)) && isFinite(value);
+        },
+
+        /**
+         * Returns `true` if the passed value is an HTMLElement.
+         *
+         * @method isElement
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */        
+
+        isElement: function(value) {
+            return value ? value.nodeType === 1 : false;
+        },
+
+        /**
+         * Returns `true` if the passed value is a TextNode.
+         *
+         * @method isTextNode
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isTextNode: function(value) {
+            return value ? value.nodeName === "#text" : false;
+        },
+
+        /**
+         * Returns `true` if the passed value is defined.
+         *
+         * @method isDefined
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isDefined: function(value) {
+            return typeof value !== 'undefined';
+        },
+
+        /**
+         * Returns `true` if the passed value is iterable, `false` otherwise.
+         *
+         * @method isIterable
+         * @param {Object} value.
+         * @return {Boolean} Returns true/false.
+         */
+
+        isIterable: function(value) {
+            return (value && typeof value !== 'string') ? value.length !== undefined : false;
+        }
+
+      });
+
+    })();
+
+  </script>
+
+</polymer-element>

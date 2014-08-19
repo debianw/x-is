@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>x-is</title>
+
+  <script src="../../platform/platform.js"></script>
+  <link rel="import" href="../../polymer-test-tools/tools.html">
+  <script src="../../polymer-test-tools/htmltest.js"></script>
+  
+  <!-- Step 1: import the element to test -->
+  <link rel="import" href="../x-is.html">
+
+</head>
+<body>
+
+  <x-is></x-is>
+
+  <script>
+    document.addEventListener('polymer-ready', function() {
+      
+      // Test a property
+      var expect = chai.expect
+        , is = document.querySelector('x-is');
+
+      // test isEmail()
+      expect(is.isEmail("debianw@gmail.com")).to.equal(true);
+      expect(is.isEmail("test@..")).to.equal(false);
+
+      // test isArray()
+      expect(is.isArray([123])).to.equal(true);
+      expect(is.isArray([])).to.equal(true);
+      expect(is.isArray(new Array)).to.equal(true);
+      expect(is.isArray("[123]")).to.equal(false);
+
+      // test isEmpty()
+      expect(is.isEmpty([])).to.equal(true);
+      expect(is.isEmpty("")).to.equal(true);
+      expect(is.isEmpty(" ")).to.equal(true);
+      expect(is.isEmpty(null)).to.equal(true);
+      expect(is.isEmpty(undefined)).to.equal(true);
+      expect(is.isEmpty([123])).to.equal(false);
+      expect(is.isEmpty(".")).to.equal(false);
+      expect(is.isEmpty(" ", true)).to.equal(false);
+      expect(is.isEmpty(0)).to.equal(false);
+      expect(is.isEmpty({})).to.equal(false);
+
+      // test isDate()
+      expect(is.isEmpty(123)).to.be.a("boolean");
+      expect(is.isDate(new Date)).to.be.equal(true);
+      expect(is.isDate(Date.now())).to.be.equal(false);
+
+      // test isString()
+      expect(is.isString("")).to.be.equal(true);
+      expect(is.isString((123).toString())).to.be.equal(true);
+      expect(is.isString(1)).to.be.equal(false);
+
+      // test isBoolean()
+      expect(is.isBoolean(true)).to.be.equal(true);
+      expect(is.isBoolean(1 === 1)).to.be.equal(true);
+      expect(is.isBoolean("true")).to.be.equal(false);
+      expect(is.isBoolean("false")).to.be.equal(false);
+
+      // test isObject()
+      expect(is.isObject({})).to.be.equal(true);
+      expect(is.isObject(new Object())).to.be.equal(true);
+      expect(is.isObject("{}")).to.be.equal(false);
+
+      done();
+    });
+
+  </script>
+
+</body>
+</html>
