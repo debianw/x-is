@@ -1,5 +1,4 @@
-# x-is
-================
+# &lt;x-is&gt;
 
 A Polymer component with a full set of static methods to do type checking
 
