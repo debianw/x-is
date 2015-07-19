@@ -5,7 +5,7 @@
     "Walter R Chacon S <debianw@gmail.com>"
   ],
   "description": "A full set of static methods to do type checking.",
-  "keywords": "x-is, type, checking, validate, polymer, web-components",
+  "keywords": ["x-is", "type", "checking", "validate", "polymer", "web-components"],
   "main": "x-is.html",
   "license": "MIT",
   "homepage": "https://github.com/debianw/x-is/",
